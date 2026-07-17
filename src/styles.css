@@ -197,9 +197,16 @@ footer { min-height:112px; padding:18px 4vw; align-items:center; }
 @media (max-width:850px) {
   .left-rail { display:none; }
   .intro-copy,.guide-title,.knowledge-copy,.ask-copy { z-index:6; width:27vw; min-width:0; max-width:116px; }
-  .intro-copy .mono-label,.guide-title .mono-label,.knowledge-copy .mono-label,.ask-copy .mono-label,
-  .intro-copy>p:last-child,.knowledge-copy>p:last-child,.ask-copy>p:last-child { display:none; }
-  .intro-copy h1,.guide-title h2,.knowledge-copy h2,.ask-copy h2 { margin:0; font-size:clamp(18px,5.35vw,24px); line-height:1.22; overflow-wrap:anywhere; }
+  .intro-copy .mono-label,.guide-title .mono-label,.knowledge-copy .mono-label,.ask-copy .mono-label {
+    display:block;
+    margin:0;
+    color:#e8f7ff;
+    font-size:10px;
+    line-height:1.4;
+    letter-spacing:.1em;
+  }
+  .intro-copy>p:last-child,.knowledge-copy>p:last-child,.ask-copy>p:last-child,
+  .intro-copy h1,.guide-title h2,.knowledge-copy h2,.ask-copy h2 { display:none; }
   .intro-copy { margin-top:17vh; }
   .guide-title { top:17vh; left:22px; }
   .knowledge-copy { margin-top:16vh; }
