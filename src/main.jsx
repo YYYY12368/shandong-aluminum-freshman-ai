@@ -23,6 +23,8 @@ const railChapters = [
   { code: '04', label: 'AI 新生助手', title: '现在，', accent: '就问。', description: '输入问题，按要点得到清晰的回应。' },
 ]
 
+const sceneAnchors = [0, 0.25, 0.5, 0.75]
+
 const answerMap = [
   { keys: ['晚自习'], answer: '大一通常安排晚自习，参考时间为 19:00-20:40；大二一般不设晚自习。具体安排请以学院和辅导员通知为准。' },
   { keys: ['宿舍', '入住', '空调', 'Wi-Fi'], answer: '新生宿舍参考为 6 人间或 8 人间，通常由学院统一安排。8 人间多为上下床，6 人间多为上床下桌；宿舍配有风扇、独立卫浴、楼层饮水机和一层洗衣房。部分宿舍已配空调，安装进度以学校安排为准。' },
@@ -36,9 +38,9 @@ function getAnswer(question) {
     || '我已收到你的问题。涉及校内具体时间、费用和报到材料时，请同时查看辅导员、新生群和学院官方通知，以最新发布内容为准。'
 }
 
-function SceneProgress({ activeScene }) {
+function SceneProgress({ activeScene, onSelect }) {
   return <div className="scene-progress" aria-label={`当前第 ${activeScene + 1} 节，共 4 节`}>
-    {[0, 1, 2, 3].map((item) => <span key={item} className={item === activeScene ? 'is-active' : ''}></span>)}
+    {[0, 1, 2, 3].map((item) => <button key={item} type="button" className={item === activeScene ? 'is-active' : ''} onClick={() => onSelect(item)} aria-label={`前往第 ${item + 1} 节`} aria-current={item === activeScene ? 'step' : undefined}></button>)}
   </div>
 }
 
@@ -80,9 +82,8 @@ function App() {
 
       const railEntries = railRef.current?.children
       if (railEntries) {
-        const anchors = [0, 1 / 3, 2 / 3, 1]
         Array.from(railEntries).forEach((entry, index) => {
-          const emphasis = Math.max(0, 1 - Math.abs(progress - anchors[index]) * 3.2)
+          const emphasis = Math.max(0, 1 - Math.abs(progress - sceneAnchors[index]) * 3.2)
           entry.style.setProperty('--rail-emphasis', emphasis.toFixed(3))
           entry.style.setProperty('--rail-scale', (0.78 + emphasis * 0.48).toFixed(3))
           entry.style.setProperty('--rail-opacity', (0.6 + emphasis * 0.4).toFixed(3))
@@ -155,6 +156,14 @@ function App() {
     window.scrollTo({ top: top + maxScroll * 0.9, behavior: 'smooth' })
   }, [ask])
 
+  const jumpToScene = useCallback((sceneIndex) => {
+    const story = storyRef.current
+    if (!story) return
+    const top = window.scrollY + story.getBoundingClientRect().top
+    const maxScroll = Math.max(story.offsetHeight - window.innerHeight, 1)
+    window.scrollTo({ top: top + maxScroll * sceneAnchors[sceneIndex], behavior: 'smooth' })
+  }, [])
+
   useEffect(() => {
     const chat = chatRef.current
     if (conversation.length && chat) chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' })
@@ -183,7 +192,7 @@ function App() {
 
     <section id="top" className="scroll-story" ref={storyRef}>
       <div className="story-stage" ref={stageRef}>
-        <SceneProgress activeScene={activeScene} />
+        <SceneProgress activeScene={activeScene} onSelect={jumpToScene} />
         <p className="stage-counter">0{activeScene + 1} / 04</p>
         <LeftRail activeScene={activeScene} railRef={railRef} />
 

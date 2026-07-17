@@ -175,6 +175,15 @@ footer { min-height:86px; position:relative; z-index:2; padding:0 4vw; border-to
 @keyframes wallpaperFloatTwo { from { translate:1.2vw 1vh; } to { translate:-1.6vw -1.2vh; } }
 @keyframes wallpaperFloatThree { from { translate:1vw -1.1vh; } to { translate:-1.3vw 1.4vh; } }
 
+/* Enlarged chapter navigation: each white bar is now a real, accessible button. */
+.scene-progress { right:3.25vw; gap:10px; }
+.scene-progress button { width:18px; height:66px; display:grid; place-items:center; padding:0; border:0; background:transparent; color:inherit; }
+.scene-progress button::before { content:''; display:block; width:8px; height:33px; border-radius:999px; background:rgba(255,255,255,.48); box-shadow:0 0 0 1px rgba(255,255,255,.16); transition:width .28s ease,height .36s cubic-bezier(.2,.8,.2,1),background .28s ease,box-shadow .28s ease; }
+.scene-progress button:hover::before,.scene-progress button:focus-visible::before { width:12px; height:45px; background:rgba(255,255,255,.9); box-shadow:0 0 0 5px rgba(255,255,255,.16),0 0 20px rgba(231,253,255,.44); }
+.scene-progress button:focus-visible { outline:0; }
+.scene-progress button.is-active::before { width:12px; height:60px; background:#fff; box-shadow:0 0 0 5px rgba(255,255,255,.15),0 0 21px rgba(231,253,255,.48); }
+@media (max-width:850px) { .scene-progress { right:16px; gap:5px; } .scene-progress button { width:16px; height:52px; } .scene-progress button::before { width:7px; height:26px; } .scene-progress button.is-active::before { width:10px; height:47px; } }
+
 /* Ownership and source notice stays visible without competing with the scroll story. */
 footer { min-height:112px; padding:18px 4vw; align-items:center; }
 .footer-identity { display:grid; gap:4px; flex:0 0 auto; }
