@@ -217,7 +217,6 @@ footer { min-height:112px; padding:18px 4vw; align-items:center; }
 
 /* On phones, keep the first scene's right side to its compact label only. */
 @media (max-width:850px) {
-  .intro-scene .intro-orbit,
   .intro-scene .down-button { display:none; }
   .intro-scene .intro-float-card {
     right:22px;
